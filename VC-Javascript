@@ -1,0 +1,25 @@
+// Check if the browser supports the Web Speech API
+if ('webkitSpeechRecognition' in window) {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    // Start listening when the button is clicked
+    document.getElementById('start-btn').addEventListener('click', () => {
+        recognition.start();
+    });
+
+    // Capture the speech and display it
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('output').innerText = `You said: ${transcript}`;
+    };
+
+    // Handle errors
+    recognition.onerror = function(event) {
+        console.error('Speech recognition error:', event.error);
+    };
+} else {
+    alert('Sorry, your browser does not support speech recognition.');
+}
